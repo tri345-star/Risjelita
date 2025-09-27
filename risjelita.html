@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ucapan Ulang Tahun Jellot</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #ffecd2, #fcb69f);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      text-align: center;
+      position: relative;
+    }
+
+    /* Canvas untuk kembang api */
+    #fireworks {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    /* Balon animasi */
+    .balloon {
+      position: absolute;
+      bottom: -150px;
+      width: 60px;
+      height: 80px;
+      background: pink;
+      border-radius: 50%;
+      animation: float 8s infinite;
+      z-index: 1;
+    }
+
+    .balloon::after {
+      content: "";
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      width: 2px;
+      height: 40px;
+      background: #555;
+      transform: translateX(-50%);
+    }
+
+    .balloon:nth-child(2) { left: 10%; background: #ff6666; animation-duration: 6s; }
+    .balloon:nth-child(3) { left: 30%; background: #ffcc66; animation-duration: 7s; }
+    .balloon:nth-child(4) { left: 50%; background: #66ccff; animation-duration: 9s; }
+    .balloon:nth-child(5) { left: 70%; background: #99ff99; animation-duration: 11s; }
+    .balloon:nth-child(6) { left: 90%; background: #ff99cc; animation-duration: 8s; }
+
+    @keyframes float {
+      0% { transform: translateY(0); opacity: 0.8; }
+      50% { opacity: 1; }
+      100% { transform: translateY(-120vh); opacity: 0; }
+    }
+
+    /* Slide ucapan */
+    .slide {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: fade 1s;
+      z-index: 2;
+      position: relative;
+    }
+
+    .active { display: flex; }
+
+    h1 {
+      font-size: 3em;
+      font-family: 'Dancing Script', cursive;
+      color: #ff0066;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.3em;
+      color: #333;
+      margin: 10px 0;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 25px;
+      font-size: 1em;
+      background: #ff0066;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #e6005c;
+      transform: scale(1.05);
+    }
+
+    @keyframes fade {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Canvas Kembang Api -->
+  <canvas id="fireworks"></canvas>
+
+  <!-- Balon -->
+  <div class="balloon"></div>
+  <div class="balloon"></div>
+  <div class="balloon"></div>
+  <div class="balloon"></div>
+  <div class="balloon"></div>
+  <div class="balloon"></div>
+
+  <!-- Slide 1 -->
+  <div class="slide active">
+    <h1>🎉 Selamat Ulang Tahun Risj 🎉</h1>
+    <p>✨💐🥳Hari ini adalah hari yang istimewa untukmu 🥳💐✨</p>
+    <button onclick="nextSlide()">Lanjut ➡️</button>
+  </div>
+
+  <!-- Slide 2 -->
+  <div class="slide">
+    <p>Semoga langkahmu selalu ringan,</p>
+    <p>dan hatimu dipenuhi kebahagiaan 🌸</p>
+    <button onclick="nextSlide()">Lanjut ➡️</button>
+  </div>
+
+  <!-- Slide 3 -->
+  <div class="slide">
+    <p>Semoga setiap mimpimu menemukan jalannya,</p>
+    <p>dan bahagiamu tak pernah berkurang 💖</p>
+    <button onclick="nextSlide()">Lanjut ➡️</button>
+  </div>
+
+  <!-- Slide 4 -->
+  <div class="slide">
+    <p>Terima kasih sudah selalu membersamai selama ini,</p>
+    <p>yang selalu ada dalam suka dan duka 💐</p>
+    <button onclick="nextSlide()">Lanjut ➡️</button>
+  </div>
+
+  <!-- Slide 5 -->
+  <div class="slide">
+    <h1>Tetaplah bersinar ✨🌟</h1>
+    <p>Karena dunia lebih indah dengan senyummu 💕</p>
+    <button onclick="restart()">🔄 Ulangi</button>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+
+    function nextSlide() {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }
+
+    function restart() {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = 0;
+      slides[currentSlide].classList.add('active');
+    }
+
+    // Kembang Api 🎆
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    class Firework {
+      constructor(x, y, colors) {
+        this.x = x;
+        this.y = y;
+        this.colors = colors;
+        this.particles = [];
+        for (let i = 0; i < 50; i++) {
+          this.particles.push({
+            x: x,
+            y: y,
+            dx: (Math.random() - 0.5) * 6,
+            dy: (Math.random() - 0.5) * 6,
+            life: 100,
+            color: colors[Math.floor(Math.random() * colors.length)]
+          });
+        }
+      }
+      update() {
+        this.particles.forEach(p => {
+          p.x += p.dx;
+          p.y += p.dy;
+          p.dy += 0.05; // gravitasi kecil
+          p.life--;
+        });
+      }
+      draw() {
+        this.particles.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+        });
+      }
+    }
+
+    let fireworks = [];
+    const colors = ["#ff0066", "#ffcc00", "#66ff66", "#66ccff", "#ff99cc"];
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (Math.random() < 0.05) {
+        fireworks.push(new Firework(Math.random() * canvas.width, Math.random() * canvas.height / 2, colors));
+      }
+      fireworks.forEach((fw, i) => {
+        fw.update();
+        fw.draw();
+        fw.particles = fw.particles.filter(p => p.life > 0);
+        if (fw.particles.length === 0) fireworks.splice(i, 1);
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+
+</body>
+</html>
